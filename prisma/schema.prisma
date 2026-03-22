@@ -1,0 +1,37 @@
+// Prisma schema for GrundCheck.at
+// Handles anonymous sessions, watchlists, and search logs.
+// Run: npx prisma db push
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model WatchlistItem {
+  id         String   @id @default(cuid())
+  sessionId  String   // anonymous session cookie value
+  entityId   String   // Neo4j node id
+  entityName String
+  entityType String   // "company" | "property" | "person"
+  createdAt  DateTime @default(now())
+
+  @@unique([sessionId, entityId])
+  @@index([sessionId])
+}
+
+model SearchLog {
+  id        String   @id @default(cuid())
+  sessionId String
+  query     String
+  cypher    String?
+  resultCount Int    @default(0)
+  durationMs  Int?
+  createdAt   DateTime @default(now())
+
+  @@index([sessionId])
+  @@index([createdAt])
+}
