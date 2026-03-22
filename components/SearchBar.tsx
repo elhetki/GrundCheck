@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Search } from 'lucide-react';
 
 interface SearchBarProps {
   defaultValue?: string;
@@ -23,14 +24,14 @@ export function SearchBar({ defaultValue = '' }: SearchBarProps) {
   return (
     <form onSubmit={handleSubmit} className="relative w-full max-w-2xl mx-auto">
       <div
-        className="flex items-center rounded-xl border overflow-hidden"
+        className="flex items-center rounded-xl border overflow-hidden bg-surface border-default"
         style={{
           background: 'var(--surface)',
           borderColor: 'var(--border)',
         }}
       >
-        <span className="pl-4 text-xl select-none" style={{ color: 'var(--text-muted)' }}>
-          🔍
+        <span className="pl-4 select-none text-muted" style={{ color: 'var(--text-muted)' }}>
+          <Search className="w-5 h-5" />
         </span>
         <input
           name="q"

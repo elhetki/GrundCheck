@@ -52,3 +52,11 @@ body {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* Utility classes for design tokens */
+.text-primary { color: var(--text); }
+.text-muted { color: var(--text-muted); }
+.text-accent { color: var(--accent); }
+.bg-surface { background-color: var(--surface); }
+.bg-surface-2 { background-color: var(--surface-2); }
+.border-default { border-color: var(--border); }

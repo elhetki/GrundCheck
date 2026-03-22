@@ -1,6 +1,52 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { Landmark, Network, Brain, ShieldAlert, FileText, Bell } from 'lucide-react';
 import SearchBar from '@/components/SearchBar';
 
+const FEATURES = [
+  {
+    icon: <Landmark className="w-6 h-6" />,
+    title: 'Grundbuch-Daten',
+    desc: 'Eigentümer, Lasten, Pfandrechte — aus dem Grundbuch aggregiert.',
+  },
+  {
+    icon: <Network className="w-6 h-6" />,
+    title: 'Beteiligungsgraph',
+    desc: 'Interaktive Visualisierung der vollständigen Eigentümerkette.',
+  },
+  {
+    icon: <Brain className="w-6 h-6" />,
+    title: 'KI-Suche',
+    desc: 'Natürlichsprachliche Anfragen auf Deutsch — kein SQL nötig.',
+  },
+  {
+    icon: <ShieldAlert className="w-6 h-6" />,
+    title: 'Risiko-Score',
+    desc: 'LOW / MEDIUM / HIGH basierend auf Insolvenzen, GF-Wechseln, Mantelgesellschaften.',
+  },
+  {
+    icon: <FileText className="w-6 h-6" />,
+    title: 'Firmenbuch',
+    desc: 'Gesellschafter, Geschäftsführer, Kapital und Status auf einen Blick.',
+  },
+  {
+    icon: <Bell className="w-6 h-6" />,
+    title: 'Watchlist',
+    desc: 'Entitäten beobachten und über Änderungen benachrichtigt werden.',
+  },
+];
+
+const EXAMPLE_QUERIES = [
+  'Wem gehört Neubaugasse 42?',
+  'Ist die Firma hinter Kärntner Straße 12 sauber?',
+  'Firmen von Thomas Müller',
+  'Liegenschaften im 1. Bezirk',
+];
+
 export default function HomePage() {
+  const router = useRouter();
+
   return (
     <main className="min-h-screen flex flex-col">
       {/* Hero */}
@@ -17,12 +63,12 @@ export default function HomePage() {
             Hackathon MVP · Nur Demo-Daten
           </div>
 
-          <h1 className="text-5xl font-bold mb-4 tracking-tight" style={{ color: 'var(--text)' }}>
+          <h1 className="text-5xl font-bold mb-4 tracking-tight text-primary" style={{ color: 'var(--text)' }}>
             Wem gehört{' '}
             <span style={{ color: 'var(--accent)' }}>Österreich?</span>
           </h1>
 
-          <p className="text-lg mb-10" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-lg mb-10 text-muted" style={{ color: 'var(--text-muted)' }}>
             Gib eine Adresse oder einen Firmennamen ein. GrundCheck zeigt dir den Eigentümer,
             die Beteiligungsstruktur und einen Risiko-Score — in unter 10 Sekunden.
           </p>
@@ -31,12 +77,7 @@ export default function HomePage() {
 
           {/* Example queries */}
           <div className="mt-6 flex flex-wrap gap-2 justify-center">
-            {[
-              'Wem gehört Neubaugasse 42?',
-              'Ist die Firma hinter Kärntner Straße 12 sauber?',
-              'Firmen von Thomas Müller',
-              'Liegenschaften im 1. Bezirk',
-            ].map((q) => (
+            {EXAMPLE_QUERIES.map((q) => (
               <button
                 key={q}
                 className="px-3 py-1.5 rounded-lg text-sm border transition-colors hover:border-[var(--accent)]"
@@ -45,14 +86,7 @@ export default function HomePage() {
                   borderColor: 'var(--border)',
                   color: 'var(--text-muted)',
                 }}
-                onClick={() => {
-                  // Handled by SearchBar via URL
-                  const input = document.querySelector<HTMLInputElement>('input[name="q"]');
-                  if (input) {
-                    input.value = q;
-                    input.form?.requestSubmit();
-                  }
-                }}
+                onClick={() => router.push(`/search?q=${encodeURIComponent(q)}`)}
               >
                 {q}
               </button>
@@ -63,48 +97,17 @@ export default function HomePage() {
 
       {/* Feature grid */}
       <section className="max-w-5xl mx-auto w-full px-6 pb-24 grid grid-cols-3 gap-6">
-        {[
-          {
-            icon: '🏛️',
-            title: 'Grundbuch-Daten',
-            desc: 'Eigentümer, Lasten, Pfandrechte — aus dem Grundbuch aggregiert.',
-          },
-          {
-            icon: '🕸️',
-            title: 'Beteiligungsgraph',
-            desc: 'Interaktive Visualisierung der vollständigen Eigentümerkette.',
-          },
-          {
-            icon: '🔎',
-            title: 'KI-Suche',
-            desc: 'Natürlichsprachliche Anfragen auf Deutsch — kein SQL nötig.',
-          },
-          {
-            icon: '⚠️',
-            title: 'Risiko-Score',
-            desc: 'LOW / MEDIUM / HIGH basierend auf Insolvenzen, GF-Wechseln, Mantelgesellschaften.',
-          },
-          {
-            icon: '📋',
-            title: 'Firmenbuch',
-            desc: 'Gesellschafter, Geschäftsführer, Kapital und Status auf einen Blick.',
-          },
-          {
-            icon: '🔔',
-            title: 'Watchlist',
-            desc: 'Entitäten beobachten und über Änderungen benachrichtigt werden.',
-          },
-        ].map(({ icon, title, desc }) => (
+        {FEATURES.map(({ icon, title, desc }) => (
           <div
             key={title}
-            className="rounded-xl p-6 border"
+            className="rounded-xl p-6 border bg-surface border-default"
             style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
           >
-            <div className="text-2xl mb-3">{icon}</div>
-            <h3 className="font-semibold mb-2" style={{ color: 'var(--text)' }}>
+            <div className="mb-3" style={{ color: 'var(--accent)' }}>{icon}</div>
+            <h3 className="font-semibold mb-2 text-primary" style={{ color: 'var(--text)' }}>
               {title}
             </h3>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-sm text-muted" style={{ color: 'var(--text-muted)' }}>
               {desc}
             </p>
           </div>
@@ -113,16 +116,16 @@ export default function HomePage() {
 
       {/* Roadmap teaser */}
       <section
-        className="mx-6 mb-16 rounded-xl p-8 border max-w-5xl mx-auto w-full"
+        className="mx-6 mb-16 rounded-xl p-8 border max-w-5xl mx-auto w-full bg-surface border-default"
         style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
       >
-        <h2 className="text-xl font-semibold mb-2" style={{ color: 'var(--text)' }}>
+        <h2 className="text-xl font-semibold mb-2 text-primary" style={{ color: 'var(--text)' }}>
           Roadmap
         </h2>
-        <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
+        <p className="text-sm mb-4 text-muted" style={{ color: 'var(--text-muted)' }}>
           Geplante Features nach dem Hackathon:
         </p>
-        <ul className="text-sm space-y-1" style={{ color: 'var(--text-muted)' }}>
+        <ul className="text-sm space-y-1 text-muted" style={{ color: 'var(--text-muted)' }}>
           <li>• Live-Anbindung Firmenbuch API (Justizministerium)</li>
           <li>• Live-Anbindung Grundbuch Online (Österreichisches Grundbuch)</li>
           <li>• ESG-Modul: Nachhaltigkeitsbewertung von Immobilienportfolios</li>

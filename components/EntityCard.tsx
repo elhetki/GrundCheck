@@ -1,11 +1,12 @@
 import Link from 'next/link';
+import { Building2, Home, User } from 'lucide-react';
 import RiskBadge from './RiskBadge';
 import type { SearchResult } from '@/lib/types';
 
-const TYPE_ICON: Record<string, string> = {
-  company: '🏢',
-  property: '🏠',
-  person: '👤',
+const TYPE_ICON: Record<string, React.ReactNode> = {
+  company: <Building2 className="w-6 h-6" />,
+  property: <Home className="w-6 h-6" />,
+  person: <User className="w-6 h-6" />,
 };
 
 const TYPE_LABEL: Record<string, string> = {
@@ -27,7 +28,9 @@ export function EntityCard({ entity }: EntityCardProps) {
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3 min-w-0">
-          <span className="text-2xl mt-0.5 shrink-0">{TYPE_ICON[entity.type]}</span>
+          <span className="mt-0.5 shrink-0" style={{ color: 'var(--text-muted)' }}>
+            {TYPE_ICON[entity.type]}
+          </span>
           <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1">
               <span

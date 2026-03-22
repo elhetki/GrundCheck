@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ShieldAlert } from 'lucide-react';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -18,10 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <footer className="border-t mt-16 py-6 text-center text-sm" style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
           <p>
-            ⚠️ Dies ist keine Rechtsberatung. Alle Informationen ohne Gewähr.
+            <ShieldAlert className="inline-block mr-1 w-4 h-4 align-text-bottom" /> Dies ist keine Rechtsberatung. Alle Informationen ohne Gewähr.
           </p>
           <p className="mt-1">
-            © 2025 GrundCheck.at — Hackathon MVP
+            © 2026 GrundCheck.at — Hackathon MVP
           </p>
         </footer>
       </body>

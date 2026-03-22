@@ -59,7 +59,7 @@ export async function naturalLanguageToCypher(
   userQuery: string
 ): Promise<{ cypher: string; params: Record<string, unknown> }> {
   const message = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: process.env.CLAUDE_MODEL ?? 'claude-sonnet-4-6',
     max_tokens: 1024,
     system: SYSTEM_PROMPT,
     messages: [
